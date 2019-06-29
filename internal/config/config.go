@@ -468,6 +468,7 @@ func ExportersFromViperConfig(logger *zap.Logger, v *viper.Viper) ([]consumer.Tr
 		{name: "prometheus", fn: prometheusexporter.PrometheusExportersFromViper},
 		{name: "aws-xray", fn: awsexporter.AWSXRayTraceExportersFromViper},
 		{name: "honeycomb", fn: honeycombexporter.HoneycombTraceExportersFromViper},
+		{name: "azure-monitor", fn: azuremonitorexporter.AzureMonitorTraceExportersFromViper},
 	}
 
 	var traceExporters []consumer.TraceConsumer
