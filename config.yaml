@@ -1,0 +1,3 @@
+exporters:
+  azureMonitor:
+    instrumentationKey: "11111111111"
