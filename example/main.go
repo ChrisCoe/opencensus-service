@@ -40,10 +40,10 @@ func main() {
 	fmt.Println("le OCE:")
 	fmt.Println(oce)
 	trace.RegisterExporter(oce)
-	view.RegisterExporter(oce)
+	//view.RegisterExporter(oce)
 
 	// Some configurations to get observability signals out.
-	view.SetReportingPeriod(7 * time.Second)
+	//view.SetReportingPeriod(7 * time.Second)
 	trace.ApplyConfig(trace.Config{
 		DefaultSampler: trace.AlwaysSample(),
 	})
@@ -94,8 +94,8 @@ func main() {
 	rng := rand.New(rand.NewSource(time.Now().UnixNano()))
 	for {
 		startTime := time.Now()
-		fmt.Println("SPAN IS INSTUMENTED")
-		_, span := trace.StartSpan(context.Background(), "Foo")
+		fmt.Println("SPAN Rob is SENT")
+		_, span := trace.StartSpan(context.Background(), "Rob")
 		var sleep int64
 		switch modulus := time.Now().Unix() % 5; modulus {
 		case 0:
@@ -112,7 +112,7 @@ func main() {
 
 		time.Sleep(time.Duration(sleep) * time.Millisecond)
 
-		span.End()
+		defer span.End()
 		latencyMs := float64(time.Since(startTime)) / 1e6
 		nr := int(rng.Int31n(7))
 		for i := 0; i < nr; i++ {

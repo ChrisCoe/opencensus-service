@@ -6,17 +6,20 @@ import (
 	//"contrib.go.opencensus.io/exporter/jaeger"
 	// TODO: once this repository has been transferred to the
 	// official census-ecosystem location, update this import path.
+	"fmt"
+	"log"
+
 	"github.com/ChrisCoe/opencensus-go-exporter-azuremonitor/azuremonitor"
 	"github.com/ChrisCoe/opencensus-go-exporter-azuremonitor/azuremonitor/common"
-	"log"
-	"fmt"
-	//"go.opencensus.io/trace"
+
+	"go.opencensus.io/trace"
+	//"context"
 
 	"github.com/census-instrumentation/opencensus-service/consumer"
 	"github.com/census-instrumentation/opencensus-service/exporter/exporterwrapper"
 )
 
-type azuerMonitorConfig struct {
+type azuermonitorconfig struct {
 	InstrumentationKey string `mapstructure:"instrumentationKey"`
 }
 
@@ -24,7 +27,7 @@ type azuerMonitorConfig struct {
 // Jaeger according to the configuration settings.
 func AzureMonitorExportersFromViper(v *viper.Viper) (tps []consumer.TraceConsumer, mps []consumer.MetricsConsumer, doneFns []func() error, err error) {
 	var cfg struct {
-		AzureMonitor *azuerMonitorConfig `mapstructure:"azuremonitor"`
+		AzureMonitor *azuermonitorconfig `mapstructure:"azuremonitor"`
 	}
 	if err := v.Unmarshal(&cfg); err != nil {
 		return nil, nil, nil, err
@@ -35,7 +38,6 @@ func AzureMonitorExportersFromViper(v *viper.Viper) (tps []consumer.TraceConsume
 	}
 
 	// TODO: i am updating the constructor but first figure out import
-	// // jaeger.NewExporter performs configurqtion validation
 	fmt.Println("LAUGH Y")
 	fmt.Println("This is ikey")
 	fmt.Println(amc.InstrumentationKey)
@@ -45,6 +47,10 @@ func AzureMonitorExportersFromViper(v *viper.Viper) (tps []consumer.TraceConsume
 	if err != nil {
 		log.Fatal(err)
 	}
+
+	trace.ApplyConfig(trace.Config{DefaultSampler: trace.AlwaysSample()})
+	trace.RegisterExporter(azureexporter)
+
 	fmt.Println("My azure trace exporter:")
 	fmt.Println(azureexporter)
 	fmt.Println("END STUFF")
@@ -57,17 +63,25 @@ func AzureMonitorExportersFromViper(v *viper.Viper) (tps []consumer.TraceConsume
 	// 		ServiceName: jc.ServiceName,
 	// 	},
 	// })
-	
+
 	if err != nil {
 		return nil, nil, nil, err
 	}
 
-	amte, err := exporterwrapper.NewExporterWrapper("azuremonitor_trace", "ocservice.exporter.AzureMonitor.ConsumeTraceData", azureexporter)
+	doneFns = append(doneFns, func() error {
+		return nil
+	})
+
+	amte, err := exporterwrapper.NewExporterWrapper("azuremonitor", "ocservice.exporter.AzureMonitor.ConsumeTraceData", azureexporter)
 	if err != nil {
 		return nil, nil, nil, err
 	}
+	fmt.Println("My wrapper azure trace exporter:")
+	fmt.Println(amte)
 
+	doneFns = append(doneFns, func() error {
+		return nil
+	})
 	tps = append(tps, amte)
 	return
 }
-
