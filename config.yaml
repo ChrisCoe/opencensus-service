@@ -1,3 +1,8 @@
+# exporters:
+#   azureMonitor:
+#     instrumentationKey: "111a0d2f-ab53-4b62-a54f-4722f09fd136"
+
 exporters:
-  azureMonitor:
-    instrumentationKey: "11111111111"
+  jaeger:
+    service_name: "opencensus"
+    collector_endpoint: "http://localhost:14268/api/traces"

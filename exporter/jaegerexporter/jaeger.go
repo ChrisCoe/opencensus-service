@@ -15,6 +15,7 @@
 package jaegerexporter
 
 import (
+	"fmt"
 	"github.com/spf13/viper"
 
 	"contrib.go.opencensus.io/exporter/jaeger"
@@ -54,6 +55,9 @@ func JaegerExportersFromViper(v *viper.Viper) (tps []consumer.TraceConsumer, mps
 			ServiceName: jc.ServiceName,
 		},
 	})
+	fmt.Println("The jaeger exporter:")
+	fmt.Println(je)
+	fmt.Println("END STUFF")
 	if err != nil {
 		return nil, nil, nil, err
 	}

@@ -37,6 +37,8 @@ func main() {
 	if err != nil {
 		log.Fatalf("Failed to create ocagent-exporter: %v", err)
 	}
+	fmt.Println("le OCE:")
+	fmt.Println(oce)
 	trace.RegisterExporter(oce)
 	view.RegisterExporter(oce)
 
@@ -92,6 +94,7 @@ func main() {
 	rng := rand.New(rand.NewSource(time.Now().UnixNano()))
 	for {
 		startTime := time.Now()
+		fmt.Println("SPAN IS INSTUMENTED")
 		_, span := trace.StartSpan(context.Background(), "Foo")
 		var sleep int64
 		switch modulus := time.Now().Unix() % 5; modulus {
