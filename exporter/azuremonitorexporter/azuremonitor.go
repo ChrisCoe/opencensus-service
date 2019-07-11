@@ -6,7 +6,8 @@ import (
 	//"contrib.go.opencensus.io/exporter/jaeger"
 	// TODO: once this repository has been transferred to the
 	// official census-ecosystem location, update this import path.
-	"github.com/ChrisCoe/opencensus-go/tree/master/exporter/azure_monitor"
+	"github.com/ChrisCoe/opencensus-go-exporter-azuremonitor/azuremonitor"
+	"log"
 
 	"github.com/census-instrumentation/opencensus-service/consumer"
 	"github.com/census-instrumentation/opencensus-service/exporter/exporterwrapper"
@@ -32,6 +33,11 @@ func AzureMonitorExportersFromViper(v *viper.Viper) (tps []consumer.TraceConsume
 
 	// TODO: i am updating the constructor but first figure out import
 	// // jaeger.NewExporter performs configurqtion validation
+	 
+	azureexporter, err := azuremonitor.NewAzureTraceExporter("111a0d2f-ab53-4b62-a54f-4722f09fd136")
+	if err != nil {
+		log.Fatal(err)
+	}
 	// ame, err := jaeger.NewExporter(jaeger.Options{
 	// 	CollectorEndpoint: jc.CollectorEndpoint,
 	// 	Username:          jc.Username,
@@ -40,11 +46,12 @@ func AzureMonitorExportersFromViper(v *viper.Viper) (tps []consumer.TraceConsume
 	// 		ServiceName: jc.ServiceName,
 	// 	},
 	// })
+	
 	if err != nil {
 		return nil, nil, nil, err
 	}
 
-	amte, err := exporterwrapper.NewExporterWrapper("azureMonitor", "name", ame)
+	amte, err := exporterwrapper.NewExporterWrapper("azureMonitor", "name", azureexporter)
 	if err != nil {
 		return nil, nil, nil, err
 	}
