@@ -28,6 +28,7 @@ import (
 
 	"github.com/census-instrumentation/opencensus-service/consumer"
 	"github.com/census-instrumentation/opencensus-service/exporter/awsexporter"
+	"github.com/census-instrumentation/opencensus-service/exporter/azuremonitorexporter"
 	"github.com/census-instrumentation/opencensus-service/exporter/datadogexporter"
 	"github.com/census-instrumentation/opencensus-service/exporter/honeycombexporter"
 	"github.com/census-instrumentation/opencensus-service/exporter/jaegerexporter"
@@ -468,6 +469,7 @@ func ExportersFromViperConfig(logger *zap.Logger, v *viper.Viper) ([]consumer.Tr
 		{name: "prometheus", fn: prometheusexporter.PrometheusExportersFromViper},
 		{name: "aws-xray", fn: awsexporter.AWSXRayTraceExportersFromViper},
 		{name: "honeycomb", fn: honeycombexporter.HoneycombTraceExportersFromViper},
+		{name: "azuremonitor", fn: azuremonitorexporter.AzureMonitorExportersFromViper},
 	}
 
 	var traceExporters []consumer.TraceConsumer
@@ -475,10 +477,17 @@ func ExportersFromViperConfig(logger *zap.Logger, v *viper.Viper) ([]consumer.Tr
 	var doneFns []func() error
 	exportersViper := v.Sub("exporters")
 	if exportersViper == nil {
+		fmt.Println("SOMETHING IS WRONG!")
 		return nil, nil, nil, nil
 	}
 	for _, cfg := range parseFns {
 		tes, mes, tesDoneFns, err := cfg.fn(exportersViper)
+		fmt.Println("TRACE CONSUMER:")
+		fmt.Println(tes)
+		fmt.Println("METERICS CONSUMER:")
+		fmt.Println(mes)
+		fmt.Println("NOT SURE, function errors?:")
+		fmt.Println(tesDoneFns)
 		if err != nil {
 			err = fmt.Errorf("failed to create config for %q: %v", cfg.name, err)
 			return nil, nil, nil, err

@@ -23,6 +23,7 @@ package exporterwrapper
 
 import (
 	"context"
+	"fmt"
 
 	"go.opencensus.io/trace"
 
@@ -43,6 +44,7 @@ import (
 // get those exporters converted to directly receive
 // OpenCensus Proto TraceData.
 func NewExporterWrapper(exporterName string, spanName string, ocExporter trace.Exporter) (exporter.TraceExporter, error) {
+	fmt.Println("Called NewExporterWrapper")
 	return exporterhelper.NewTraceExporter(
 		exporterName,
 		func(ctx context.Context, td data.TraceData) (int, error) {
@@ -58,14 +60,17 @@ func NewExporterWrapper(exporterName string, spanName string, ocExporter trace.E
 // PushOcProtoSpansToOCTraceExporter pushes TraceData to the given trace.Exporter by converting the
 // protos to trace.SpanData.
 func PushOcProtoSpansToOCTraceExporter(ocExporter trace.Exporter, td data.TraceData) (int, error) {
+	fmt.Println("Called PushOcProtoSpansToOCTraceExporter")
 	var errs []error
 	var goodSpans []*tracepb.Span
 	for _, span := range td.Spans {
 		sd, err := spandatatranslator.ProtoSpanToOCSpanData(span)
 		if err == nil {
+			fmt.Println("SPAN YES CALLED")
 			ocExporter.ExportSpan(sd)
 			goodSpans = append(goodSpans, span)
 		} else {
+			fmt.Println("SPAN NOT CALLED")
 			errs = append(errs, err)
 		}
 	}

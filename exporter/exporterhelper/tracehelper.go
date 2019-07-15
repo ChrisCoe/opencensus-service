@@ -16,7 +16,7 @@ package exporterhelper
 
 import (
 	"context"
-
+	"fmt"
 	"go.opencensus.io/trace"
 
 	"github.com/census-instrumentation/opencensus-service/data"
@@ -49,6 +49,8 @@ func (te *traceExporter) TraceExportFormat() string {
 // If no options are passed it just adds the exporter format as a tag in the Context.
 // TODO: Add support for retries.
 func NewTraceExporter(exporterFormat string, pushTraceData PushTraceData, options ...ExporterOption) (exporter.TraceExporter, error) {
+	fmt.Println("Called NewTraceExporter")
+	fmt.Println("a")
 	if exporterFormat == "" {
 		return nil, errEmptyExporterFormat
 	}
@@ -56,15 +58,20 @@ func NewTraceExporter(exporterFormat string, pushTraceData PushTraceData, option
 	if pushTraceData == nil {
 		return nil, errNilPushTraceData
 	}
-
+	
 	opts := newExporterOptions(options...)
 	if opts.recordMetrics {
+		fmt.Println("b")
 		pushTraceData = pushTraceDataWithMetrics(pushTraceData)
 	}
 
 	if opts.spanName != "" {
+		fmt.Println("c")
 		pushTraceData = pushTraceDataWithSpan(pushTraceData, opts.spanName)
 	}
+	fmt.Println("d end")
+	fmt.Println("pushTraceData")
+	fmt.Println(pushTraceData)
 
 	return &traceExporter{
 		exporterFormat: exporterFormat,

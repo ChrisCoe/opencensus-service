@@ -15,6 +15,7 @@
 package jaegerexporter
 
 import (
+	"fmt"
 	"github.com/spf13/viper"
 
 	"contrib.go.opencensus.io/exporter/jaeger"
@@ -34,6 +35,7 @@ type jaegerConfig struct {
 // JaegerExportersFromViper unmarshals the viper and returns exporter.TraceExporters targeting
 // Jaeger according to the configuration settings.
 func JaegerExportersFromViper(v *viper.Viper) (tps []consumer.TraceConsumer, mps []consumer.MetricsConsumer, doneFns []func() error, err error) {
+	fmt.Println("Called JaegerExportersFromViper")
 	var cfg struct {
 		Jaeger *jaegerConfig `mapstructure:"jaeger"`
 	}
@@ -54,6 +56,9 @@ func JaegerExportersFromViper(v *viper.Viper) (tps []consumer.TraceConsumer, mps
 			ServiceName: jc.ServiceName,
 		},
 	})
+	fmt.Println("The jaeger exporter:")
+	fmt.Println(je)
+	fmt.Println("END STUFF")
 	if err != nil {
 		return nil, nil, nil, err
 	}
@@ -67,6 +72,9 @@ func JaegerExportersFromViper(v *viper.Viper) (tps []consumer.TraceConsumer, mps
 	if err != nil {
 		return nil, nil, nil, err
 	}
+
+	fmt.Println("My wrapper jaeger trace exporter:")
+	fmt.Println(jte)
 	// TODO: Examine "contrib.go.opencensus.io/exporter/jaeger" to see
 	// if trace.ExportSpan was constraining and if perhaps the Jaeger
 	// upload can use the context and information from the Node.
