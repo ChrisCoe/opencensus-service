@@ -22,3 +22,6 @@ cmd/occollector/occollector_linux
 # Coverage
 coverage.txt
 coverage.html
+
+# Source Code
+config.yaml
