@@ -30,6 +30,23 @@ func AzureMonitorExportersFromViper(v *viper.Viper) (tps []consumer.TraceConsume
 	if amc == nil {
 		return nil, nil, nil, nil
 	}
+	azureexporter, err := azuremonitor.NewAzureTraceExporter(common.Options{
+		InstrumentationKey: amc.InstrumentationKey, // add InstrumentationKey
+	})
 
-	return nil //TODO: Create exporter from cfg for next PR
+	if err != nil {
+		return nil, nil, nil, err
+	}
+
+	doneFns = append(doneFns, func() error {
+		return nil
+	})
+
+	amte, err := exporterwrapper.NewExporterWrapper("azuremonitor", "ocservice.exporter.AzureMonitor.ConsumeTraceData", azureexporter)
+	if err != nil {
+		return nil, nil, nil, err
+	}
+
+	tps = append(tps, amte)
+	return
 }
