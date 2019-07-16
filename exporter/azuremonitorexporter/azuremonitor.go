@@ -16,8 +16,8 @@ type azuermonitorconfig struct {
 	InstrumentationKey string `mapstructure:"instrumentationKey"`
 }
 
-// JaegerExportersFromViper unmarshals the viper and returns exporter.TraceExporters targeting
-// Jaeger according to the configuration settings.
+// AzureMonitorExportersFromViper unmarshals the viper and returns exporter.TraceExporters targeting
+// Azure Monitor according to the configuration settings.
 func AzureMonitorExportersFromViper(v *viper.Viper) (tps []consumer.TraceConsumer, mps []consumer.MetricsConsumer, doneFns []func() error, err error) {
 	var cfg struct { // cfg stands for config. I am following the naming convention 
 					 // used for all the exporters in this package
@@ -31,5 +31,5 @@ func AzureMonitorExportersFromViper(v *viper.Viper) (tps []consumer.TraceConsume
 		return nil, nil, nil, nil
 	}
 
-	return
+	return nil //TODO: Create exporter from cfg for next PR
 }
