@@ -18,7 +18,7 @@ type azuermonitorconfig struct {
 
 // AzureMonitorExportersFromViper unmarshals the viper and returns exporter.TraceExporters targeting
 // Azure Monitor according to the configuration settings.
-func AzureMonitorExportersFromViper(v *viper.Viper) (tps []consumer.TraceConsumer, mps []consumer.MetricsConsumer, doneFns []func() error, err error) {
+func AzureMonitorExportersFromViper(v *viper.Viper) (traceExporters []consumer.TraceConsumer, metricExporters []consumer.MetricsConsumer, doneFns []func() error, err error) {
 	var cfg struct { // cfg stands for config. I am following the naming convention 
 					 // used for all the exporters in this package
 		AzureMonitor *azuermonitorconfig `mapstructure:"azuremonitor"`
@@ -26,10 +26,27 @@ func AzureMonitorExportersFromViper(v *viper.Viper) (tps []consumer.TraceConsume
 	if err := v.Unmarshal(&cfg); err != nil {
 		return nil, nil, nil, err
 	}
-	amc := cfg.AzureMonitor
-	if amc == nil {
+	azureMonitorConfig := cfg.AzureMonitor
+	if azureMonitorConfig == nil {
 		return nil, nil, nil, nil
 	}
+	azureExporter, err := azuremonitor.NewAzureTraceExporter(common.Options{
+		InstrumentationKey: azureMonitorConfig.InstrumentationKey, // add InstrumentationKey
+	})
 
-	return nil //TODO: Create exporter from cfg for next PR
+	if err != nil {
+		return nil, nil, nil, err
+	}
+
+	doneFns = append(doneFns, func() error {
+		return nil
+	})
+
+	azureMonitorTraceExporter, err := exporterwrapper.NewExporterWrapper("azuremonitor", "ocservice.exporter.AzureMonitor.ConsumeTraceData", azureExporter)
+	if err != nil {
+		return nil, nil, nil, err
+	}
+
+	traceExporters = append(traceExporters, azureMonitorTraceExporter)
+	return
 }
