@@ -27,14 +27,8 @@ github.com/Azure/go-autorest v10.8.1+incompatible/go.mod h1:r+4oMnoxhatjLLJ6zxSW
 github.com/BurntSushi/toml v0.3.1 h1:WXkYYl6Yr3qBf1K79EBnL4mak0OimBfB0XUf9Vl28OQ=
 github.com/BurntSushi/toml v0.3.1/go.mod h1:xHWCNGjB5oqiDr8zfno3MHue2Ht5sIBksp03qcyfWMU=
 github.com/ChrisCoe/opencensus-go v0.22.0 h1:HSw2iPPZTZMRcwo+oakGDBYFf7C4OeRxjRqArn+dPY0=
-github.com/ChrisCoe/opencensus-go-exporter-azuremonitor v0.0.0-20190711010340-edbc0f606ea3 h1:hKP6UZgYa7LY8xiTURg51ifkQ/+efuNuCGhsQC5I9cI=
-github.com/ChrisCoe/opencensus-go-exporter-azuremonitor v0.0.0-20190711010340-edbc0f606ea3/go.mod h1:QxpXE0qPdcRvfaV4czo7OpdmYKVxagRuYboxAJoLuyI=
-github.com/ChrisCoe/opencensus-go-exporter-azuremonitor v0.0.0-20190711061722-23dcf9852277 h1:Ck/7lStEwOfaVTtnkWU0XY6QNzaO+n6/WMkV9c7mAfU=
-github.com/ChrisCoe/opencensus-go-exporter-azuremonitor v0.0.0-20190711061722-23dcf9852277/go.mod h1:QxpXE0qPdcRvfaV4czo7OpdmYKVxagRuYboxAJoLuyI=
-github.com/ChrisCoe/opencensus-go-exporter-azuremonitor v0.0.0-20190711134204-144fed1d6221 h1:Sp2JpgNpim9xKlzClBldcApFntMPKEXsOD9Wi3LIQ8Y=
-github.com/ChrisCoe/opencensus-go-exporter-azuremonitor v0.0.0-20190711134204-144fed1d6221/go.mod h1:QxpXE0qPdcRvfaV4czo7OpdmYKVxagRuYboxAJoLuyI=
-github.com/ChrisCoe/opencensus-go-exporter-azuremonitor v0.0.0-20190711172825-09f39f7ce008 h1:t3WdkSso2Az2xCSaQob/xUfTHcu/CF/2m7wdOgFk49Y=
-github.com/ChrisCoe/opencensus-go-exporter-azuremonitor v0.0.0-20190711172825-09f39f7ce008/go.mod h1:QxpXE0qPdcRvfaV4czo7OpdmYKVxagRuYboxAJoLuyI=
+github.com/ChrisCoe/opencensus-go-exporter-azuremonitor v0.0.0-20190729080708-927f6d285646 h1:5UqoJBBCYAIX4L7RR85Nem1kj/15odTdLr202QU9dR4=
+github.com/ChrisCoe/opencensus-go-exporter-azuremonitor v0.0.0-20190729080708-927f6d285646/go.mod h1:QxpXE0qPdcRvfaV4czo7OpdmYKVxagRuYboxAJoLuyI=
 github.com/DataDog/datadog-go v2.2.0+incompatible h1:V5BKkxACZLjzHjSgBbr2gvLA2Ae49yhc6CSY7MLy5k4=
 github.com/DataDog/datadog-go v2.2.0+incompatible/go.mod h1:LButxg5PwREeZtORoXG3tL4fMGNddJ+vMq1mwgfaqoQ=
 github.com/DataDog/opencensus-go-exporter-datadog v0.0.0-20181026070331-e7c4bd17b329 h1:WOxkY7ClXANNyQQuq4rxQrM/nQnjXCpvqY0ipYxB9cQ=
